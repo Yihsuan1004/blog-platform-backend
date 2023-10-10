@@ -149,6 +149,15 @@ exports.getPostsByTag = async (req, res, next) => {
       {
         $unwind: "$tags",
       },
+      {
+        $lookup: {
+          from: "users", // <-- collection to join
+          localField: "author", // <-- field from the input documents
+          foreignField: "_id", // <-- field from the documents of the "from" collection
+          as: "author_info" // <-- output array field
+        }
+      },
+
       // 根據 tag 來組合回傳的資料
       {
         $group: {
@@ -158,7 +167,7 @@ exports.getPostsByTag = async (req, res, next) => {
               title: "$title",
               content: "$content",
               tags: "$tags",
-              authorId: "$authorId",
+              author: { $arrayElemAt: ["$author_info", 0] }, // Using $arrayElemAt to fetch the first element since $lookup returns an array
               createdDate: "$createdDate",
             },
           },
