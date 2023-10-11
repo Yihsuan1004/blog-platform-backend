@@ -41,7 +41,6 @@ exports.login = async(req,res,next) => {
         const payload = {
             user:{
                 id: user.id,
-                role: user.role,
                 fullName: user.fullName
             }
         }
@@ -55,7 +54,6 @@ exports.login = async(req,res,next) => {
                 res.json({ 
                     token,
                     id: user.id,
-                    role:user.role,
                 });
             }
         )
