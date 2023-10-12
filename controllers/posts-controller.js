@@ -51,11 +51,13 @@ exports.createPost = async (req, res, next) => {
 
 exports.getPost = async (req, res, next) => {
   try {
-    const post = await Post.findById(req.params.postId);
+    const post = await Post.findById(req.params.postId).populate('author', 'fullName profileImage _id');
+    console.log(post);
 
     if (!post) return next(new HttpError("Post not found", 404));
-
+    
     res.json(post);
+
   } catch (error) {
     next(new HttpError("Server error", 500));
   }
@@ -91,23 +93,46 @@ exports.getAllPost = async (req, res, next) => {
 
 exports.updatePost = async (req, res, next) => {
   try {
-    let post = await Post.findById(req.params.postId);
+    const { postId } = req.params; 
 
-    if (!post) return next(new HttpError("Post not found", 404));
+    if (!postId) {
+      return next(new HttpError("PostId is required", 400));
+    }
 
-    const { title, content, tags } = req.body;
+    const { title, tags, content, coverImage, authorId } = req.body;
 
-    if (title) post.title = title;
-    if (content) post.content = content;
-    if (tags) post.tags = tags;
+    // 檢查文章是否存在
+    const post = await Post.findById(postId);
+    if (!post) {
+      return next(new HttpError("Post not found", 404));
+    }
+
+    // 更新文章資料
+    if (title && title.trim() !== "") {
+      post.title = title;
+    }
+
+    if (tags && Array.isArray(tags) && tags.length !== 0) {
+      post.tags = tags;
+    }
+
+    if (content && content.trim() !== "") {
+      post.content = content;
+    }
+
+    if (coverImage) {
+      post.coverImage = coverImage;
+    }
 
     await post.save();
 
-    res.json(post);
+    res.status(200).json(post);
   } catch (error) {
+    console.log(error);
     next(new HttpError("Server error", 500));
   }
 };
+
 
 exports.deletePost = async (req, res, next) => {
   try {
