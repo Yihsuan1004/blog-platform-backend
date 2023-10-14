@@ -12,7 +12,7 @@ const images = require('./routes/api/images-route');
 connectDB();
 
 const corsOptions = {
-    origin: 'http://localhost:3000', // 設定允許的來源
+    origin: process.env.FRONTEND || 'http://localhost:3000', // 設定允許的來源
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // 設定允許的 HTTP 方法
     optionsSuccessStatus: 204,
   };
