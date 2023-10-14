@@ -3,7 +3,7 @@ const User = require('../models/User');
 const Post = require('../models/Post'); 
 
 // 1. GET /api/users/:userId/profile
-exports.getUserProfile = async (req, res) => {
+exports.getUserProfile = async (req, res,next) => {
     try {
         const userId = req.params.userId;
         const user = await User.findById(userId);
@@ -27,7 +27,7 @@ exports.getUserProfile = async (req, res) => {
 };
 
 // 2. PUT /api/users/:userId/profile
-exports.updateUserProfile = async (req, res) => {
+exports.updateUserProfile = async (req, res,next) => {
     try {
         const userId = req.params.userId;
         const { fullName, password, bio, profileImage } = req.body;
@@ -53,13 +53,14 @@ exports.updateUserProfile = async (req, res) => {
         };
 
         res.json(updatedProfile);
+        
     } catch (error) {
         next(new HttpError('Server error', 500));
     }
 };
 
 // 3. GET /api/users/:userId/posts
-exports.getUserPosts = async (req, res) => {
+exports.getUserPosts = async (req, res,next) => {
     try {
         const userId = req.params.userId;
         const user = await User.findById(userId);
@@ -68,7 +69,7 @@ exports.getUserPosts = async (req, res) => {
             return next(new HttpError('User not found', 404)); 
         }
 
-        const posts = await Post.find({ authorId: userId });
+        const posts = await Post.find({ author: userId }).populate('author', 'fullName profileImage _id');
 
         res.json(posts);
 

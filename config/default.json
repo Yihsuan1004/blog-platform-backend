@@ -1,5 +1,5 @@
 {
-    "mongoURI": "mongodb+srv://b10236028:jafmr_606@cluster0.ampviyq.mongodb.net/",
+    "mongoURI": "mongodb+srv://b10236028:jafmr_606@cluster0.ampviyq.mongodb.net/?retryWrites=true&w=majority",
     "jwtSecret": "secrettoken",
     "fileMaxSize": "2000000"
 }
