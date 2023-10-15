@@ -19,7 +19,7 @@ exports.uploadImage =  (req, res,next) => {
         return next(new HttpError('No file uploaded', 400));
     }
     
-    const imageUrl = `http://localhost:5200/uploads/${req.file.filename}`;
+    const imageUrl = `${process.env.BACKEND || 'http://localhost:5200'}/uploads/${req.file.filename}`;
     
     res.json({ success: true, data: { url: imageUrl } }); 
 
