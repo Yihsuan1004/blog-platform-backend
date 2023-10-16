@@ -1,11 +1,12 @@
 const express = require('express');
 const multer = require('multer');
-const path = require('path');
 const auth = require('../../middleware/auth');
 const router = express.Router();
 const imageControllers = require("../../controllers/images-controller");
 const config = require('config');
 
+
+const multerStorage = multer.memoryStorage();  // Store the file in memory
 
 const fileFilter = (req, file, cb) => {
   const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
@@ -17,19 +18,9 @@ const fileFilter = (req, file, cb) => {
   cb(null, true);
 };
 
-// Multer setup
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/') // This directory should exist in your server root.
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Append the date to prevent overwriting.
-  }
-});
-
 
 const upload = multer({ 
-  storage: storage,
+  storage: multerStorage,
   fileFilter: fileFilter,
   limits:{
     fileSize: config.get("fileMaxSize")
