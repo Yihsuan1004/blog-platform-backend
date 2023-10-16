@@ -1,6 +1,6 @@
 const config = require('config');
 const path = require('path');
-const keyFilePath = path.join(__dirname, '../config/keys.json');
+const keyFilePath = path.join(__dirname, 'keys.json');
 const HttpError = require('../models/http-error');
 const {Storage} = require('@google-cloud/storage');
 
