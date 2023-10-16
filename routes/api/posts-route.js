@@ -11,18 +11,18 @@ router.post("/", auth, postControllers.createPost);
 //@router GET api/posts
 //@desc Get all posts.
 //@access Public
-router.get("/", auth, postControllers.getAllPost);
+router.get("/", postControllers.getAllPost);
 
 //@router GET api/posts/byTag
 //@desc Get all posts by tag.
 //@access Public
-router.get("/byTag", auth, postControllers.getPostsByTag);
+router.get("/byTag", postControllers.getPostsByTag);
 
 
 //@router  GET api/posts/:postId
 //@desc Get single post.
 //@access Public
-router.get("/:postId", auth, postControllers.getPost);
+router.get("/:postId", postControllers.getPost);
 
 //@router PUT /api/posts/:postId
 //@desc Edit Post.
