@@ -54,6 +54,7 @@ exports.login = async(req,res,next) => {
                 res.json({ 
                     token,
                     id: user.id,
+                    fullName: user.fullName
                 });
             }
         )
