@@ -72,12 +72,12 @@ The server will start running on the specified port or default to `5200`.
     - Method: `GET`
 
 ### Posts
-2. **Create Blog Post**
+1. **Create Blog Post**
 
     - Endpoint: `/api/posts`
     - Method: `POST`
 
-3. **Get All Posts**
+2. **Get All Posts**
 
     - Endpoint: `/api/posts`
     - Method: `GET`
